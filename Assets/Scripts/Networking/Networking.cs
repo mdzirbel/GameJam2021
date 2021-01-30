@@ -52,6 +52,11 @@ public class Networking : MonoBehaviour
 			Debug.Log("On client connect exception " + e);
 		}
 	}
+	float getFloat(byte[] theArray, int start)
+	{
+		float f = System.BitConverter.ToSingle(theArray, start);
+		return f;
+	}
 	/// <summary> 	
 	/// Runs in background clientReceiveThread; Listens for incomming data. 	
 	/// </summary>     
@@ -73,9 +78,13 @@ public class Networking : MonoBehaviour
 					{
 						var incommingData = new byte[length];
 						Array.Copy(bytes, 0, incommingData, 0, length);
-						// Convert byte array to string message. 						
-						string serverMessage = Encoding.ASCII.GetString(incommingData);
-						Debug.Log("server message received as: " + serverMessage);
+						if(incommingData==2)
+                        {
+							ship = GameObject.Find("Ship_"+incommingData[1]);
+							ship.transform.position.x = getFloat(2);
+							ship.transform.position.y = getFloat(6);
+							ship.transform.eulerAngles.z = getFloat(10);
+						}
 					}
 				}
 			}
