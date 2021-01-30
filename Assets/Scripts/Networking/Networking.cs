@@ -87,7 +87,7 @@ public class Networking : MonoBehaviour
 	{
 		try
 		{
-			socketConnection = new TcpClient("localhost", 4162);
+			socketConnection = new TcpClient("74.140.3.27", 4162);
 			Debug.Log("Connecting");
 			while (true)
 			{
