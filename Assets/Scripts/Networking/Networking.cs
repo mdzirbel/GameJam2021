@@ -36,17 +36,17 @@ public class Networking : MonoBehaviour
 		{
 			while (procData.Count > 0)
 			{
-				byte[] incommingData = procData.Dequeue();
-				if (incommingData[0] == 1)
+				byte[] incomingData = procData.Dequeue();
+				if (incomingData[0] == 1)
 				{
 					var ship = Instantiate(exampleShip, new Vector3(0, 0, 0), Quaternion.identity);
-					ships.Add(incommingData[1], ship);
+					ships.Add(incomingData[1], ship);
 				}
-				if (incommingData[0] == 2)
+				if (incomingData[0] == 2)
 				{
-					var ship = ships[incommingData[1]];
-					ship.transform.position = new Vector3(getFloat(incommingData, 2), getFloat(incommingData, 6), 0);
-					ship.transform.eulerAngles = new Vector3(0, 0, getFloat(incommingData, 10));
+					var ship = ships[incomingData[1]];
+					ship.transform.position = new Vector3(getFloat(incomingData, 2), getFloat(incomingData, 6), 0);
+					ship.transform.eulerAngles = new Vector3(0, 0, getFloat(incomingData, 10));
 				}
 			}
 		}
@@ -74,9 +74,10 @@ public class Networking : MonoBehaviour
 	}
 	float getFloat(byte[] theArray, int start)
 	{
-		float f = System.BitConverter.ToSingle(theArray, start);
+		float f = floatify(BitConverter.ToInt32(theArray, start));
 		return f;
 	}
+
 	Queue<byte[]> procData = new Queue<byte[]>();
 	/// <summary> 	
 	/// Runs in background clientReceiveThread; Listens for incomming data. 	
@@ -94,19 +95,19 @@ public class Networking : MonoBehaviour
 				using (NetworkStream stream = socketConnection.GetStream())
 				{
 					int length;
-					// Read incomming stream into byte arrary. 					
+					// Read incoming stream into byte arrary. 					
 					while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
 					{
-						var incommingData = new byte[length];
-						Array.Copy(bytes, 0, incommingData, 0, length);
-						Debug.Log(incommingData[0]);
-						if (incommingData[0] == 2)
+						var incomingData = new byte[length];
+						Array.Copy(bytes, 0, incomingData, 0, length);
+						Debug.Log(incomingData[0]);
+						if (incomingData[0] == 2)
 						{
 							//Debug.Log(incommingData[2] + "\t" + incommingData[3] + "\t" + incommingData[4] + "\t" + incommingData[5]);
 						}
 						lock (threadLocker)
 						{
-							procData.Enqueue(incommingData);
+							procData.Enqueue(incomingData);
 						}
 					}
 				}
@@ -143,15 +144,60 @@ public class Networking : MonoBehaviour
 	}
 	public void SendPosition(GameObject obj)
 	{
-		float xPos = obj.transform.position.x;
-		float yPos = obj.transform.position.y;
-		float rot = obj.transform.eulerAngles.z;
-		byte[] outBytes = new byte[13];
+		byte[] xPos = IntMutilation(intify(obj.transform.position.x));
+		byte[] yPos = IntMutilation(intify(obj.transform.position.y));
+		byte[] rot = IntMutilation(intify(obj.transform.eulerAngles.z));
+		byte[] outBytes = new byte[16];
 		outBytes[0] = 2;
-		System.Buffer.BlockCopy(BitConverter.GetBytes(xPos), 0, outBytes, 1, 4);
-		System.Buffer.BlockCopy(BitConverter.GetBytes(yPos), 0, outBytes, 5, 4);
-		//Debug.Log(outBytes[5] + "\t" + outBytes[6] + "\t" + outBytes[7] + "\t" + outBytes[8]);
-		System.Buffer.BlockCopy(BitConverter.GetBytes(rot), 0, outBytes, 9, 4);
+		Buffer.BlockCopy(xPos, 0, outBytes, 1, 5);
+		Buffer.BlockCopy(yPos, 0, outBytes, 6, 5);
+        Buffer.BlockCopy(rot, 0, outBytes, 11, 5);
+        //Debug.Log(outBytes[8].ToString("X") + " " + outBytes[7].ToString("X") + " " + outBytes[6].ToString("X") + " " + outBytes[5].ToString("X"));
 		SendMessage(outBytes);
-    }
+	}
+
+	private int intify(float x)
+	{
+		return (int)(1000 * x);
+	}
+	private float floatify(int x)
+	{
+		return ((float)x) / 1000;
+	}
+
+	// Does unholy things to ints
+	private static byte[] IntMutilation(int x)
+	{
+		// Create byte systems for integer and output long
+		byte[] xBytes = BitConverter.GetBytes(x);
+		byte[] mutilatedBytes = new byte[5];
+
+		// Add 0x20 to the stupid numbers, and record that we did that in the extra space in the long
+		for (int i = 0; i < 4; i++)
+		{
+			if (xBytes[i] >= 0x80 && xBytes[i] < 0xA0)
+			{
+				xBytes[i] += 0x20;
+				mutilatedBytes[4] += (byte)(1 << i);
+			}
+		}
+		// Copy the mutilated int into the long
+		Buffer.BlockCopy(xBytes, 0, mutilatedBytes, 0, 4);
+		return mutilatedBytes;
+	}
+
+	// I almost wish I believed in God so I could un-believe in him for this error
+	private static int IntUnMutilation(byte[] x)
+	{
+		byte[] xBytes = new byte[4];
+		Buffer.BlockCopy(x, 0, xBytes, 0, 4);
+		for (int i = 0; i < 4; i++)
+		{
+			if ((x[4] & (byte)(1 << i)) > 0)
+			{
+				xBytes[i] -= 0x20;
+			}
+		}
+		return BitConverter.ToInt32(xBytes, 0);
+	}
 }

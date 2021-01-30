@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CaptainState : MonoBehaviour
+public class ShipState : MonoBehaviour
 {
     public int totalWattsAvailable;
     private int currentWattsAvailable;

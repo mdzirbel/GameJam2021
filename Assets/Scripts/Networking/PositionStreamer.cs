@@ -11,7 +11,7 @@ public class PositionStreamer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Networking.Instance.SendPosition(gameObject);
     }
