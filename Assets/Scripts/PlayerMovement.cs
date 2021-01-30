@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
         shipRigidBody = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // apply forward input
         float inlineThrusters = Input.GetAxis("Vertical") * verticalAcceleration;
