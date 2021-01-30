@@ -121,6 +121,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &229524003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8353965158196724725, guid: d107ed4cb31e966409714fc7999c32b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8353965156884911504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &229524008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229524003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920e4e4d237355a4e9aae5a11a50ad3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &313224645
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +250,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4f6c7d73f99033429f262bcba1bdeb8, type: 3}
+--- !u!1 &1403859877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1403859879}
+  - component: {fileID: 1403859878}
+  m_Layer: 0
+  m_Name: NetworkingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1403859878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403859877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74cdcf7743a17e4598a786b515d546d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exampleShip: {fileID: 246169920457405975, guid: 790b0e58db75cc847b5bca6d7bd1704b,
+    type: 3}
+--- !u!4 &1403859879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403859877}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.2229451, y: 0.03031291, z: -12.579576}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1249870132443681125
 PrefabInstance:
   m_ObjectHideFlags: 0
