@@ -10,10 +10,13 @@ using UnityEngine;
 public class Networking : MonoBehaviour
 {
 	public static Networking Instance;
+	public GameObject exampleShip;
 	#region private members 	
 	private TcpClient socketConnection;
 	private Thread clientReceiveThread;
 	#endregion
+	private Dictionary<int, GameObject> ships = new Dictionary<int, GameObject>();
+	private System.Object threadLocker = new System.Object();
 	// Use this for initialization 	
 	void Awake()
 	{
@@ -29,7 +32,24 @@ public class Networking : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+		lock (threadLocker)
+		{
+			while (procData.Count > 0)
+			{
+				byte[] incommingData = procData.Dequeue();
+				if (incommingData[0] == 1)
+				{
+					var ship = Instantiate(exampleShip, new Vector3(0, 0, 0), Quaternion.identity);
+					ships.Add(incommingData[1], ship);
+				}
+				if (incommingData[0] == 2)
+				{
+					var ship = ships[incommingData[1]];
+					ship.transform.position = new Vector3(getFloat(incommingData, 2), getFloat(incommingData, 6), 0);
+					ship.transform.eulerAngles = new Vector3(0, 0, getFloat(incommingData, 10));
+				}
+			}
+		}
 	}
 	void OnApplicationQuit()
     {
@@ -57,6 +77,7 @@ public class Networking : MonoBehaviour
 		float f = System.BitConverter.ToSingle(theArray, start);
 		return f;
 	}
+	Queue<byte[]> procData = new Queue<byte[]>();
 	/// <summary> 	
 	/// Runs in background clientReceiveThread; Listens for incomming data. 	
 	/// </summary>     
@@ -66,9 +87,9 @@ public class Networking : MonoBehaviour
 		{
 			socketConnection = new TcpClient("localhost", 4162);
 			Debug.Log("Connecting");
-			Byte[] bytes = new Byte[1024];
 			while (true)
 			{
+				Byte[] bytes = new Byte[1024];
 				// Get a stream object for reading 				
 				using (NetworkStream stream = socketConnection.GetStream())
 				{
@@ -78,12 +99,14 @@ public class Networking : MonoBehaviour
 					{
 						var incommingData = new byte[length];
 						Array.Copy(bytes, 0, incommingData, 0, length);
-						if(incommingData==2)
-                        {
-							ship = GameObject.Find("Ship_"+incommingData[1]);
-							ship.transform.position.x = getFloat(2);
-							ship.transform.position.y = getFloat(6);
-							ship.transform.eulerAngles.z = getFloat(10);
+						Debug.Log(incommingData[0]);
+						if (incommingData[0] == 2)
+						{
+							//Debug.Log(incommingData[2] + "\t" + incommingData[3] + "\t" + incommingData[4] + "\t" + incommingData[5]);
+						}
+						lock (threadLocker)
+						{
+							procData.Enqueue(incommingData);
 						}
 					}
 				}
@@ -127,6 +150,7 @@ public class Networking : MonoBehaviour
 		outBytes[0] = 2;
 		System.Buffer.BlockCopy(BitConverter.GetBytes(xPos), 0, outBytes, 1, 4);
 		System.Buffer.BlockCopy(BitConverter.GetBytes(yPos), 0, outBytes, 5, 4);
+		//Debug.Log(outBytes[5] + "\t" + outBytes[6] + "\t" + outBytes[7] + "\t" + outBytes[8]);
 		System.Buffer.BlockCopy(BitConverter.GetBytes(rot), 0, outBytes, 9, 4);
 		SendMessage(outBytes);
     }
