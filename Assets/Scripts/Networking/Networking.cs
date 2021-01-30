@@ -46,6 +46,7 @@ public class Networking : MonoBehaviour
 				{
 					var ship = ships[incomingData[1]];
 					ship.transform.position = new Vector3(getFloat(incomingData, 2), getFloat(incomingData, 6), 0);
+					Debug.Log(getFloat(incomingData, 10));
 					ship.transform.eulerAngles = new Vector3(0, 0, getFloat(incomingData, 10));
 				}
 			}
@@ -74,7 +75,7 @@ public class Networking : MonoBehaviour
 	}
 	float getFloat(byte[] theArray, int start)
 	{
-		float f = floatify(BitConverter.ToInt32(theArray, start));
+		float f = System.BitConverter.ToSingle(theArray, start);
 		return f;
 	}
 
@@ -100,11 +101,6 @@ public class Networking : MonoBehaviour
 					{
 						var incomingData = new byte[length];
 						Array.Copy(bytes, 0, incomingData, 0, length);
-						Debug.Log(incomingData[0]);
-						if (incomingData[0] == 2)
-						{
-							//Debug.Log(incommingData[2] + "\t" + incommingData[3] + "\t" + incommingData[4] + "\t" + incommingData[5]);
-						}
 						lock (threadLocker)
 						{
 							procData.Enqueue(incomingData);
@@ -144,60 +140,15 @@ public class Networking : MonoBehaviour
 	}
 	public void SendPosition(GameObject obj)
 	{
-		byte[] xPos = IntMutilation(intify(obj.transform.position.x));
-		byte[] yPos = IntMutilation(intify(obj.transform.position.y));
-		byte[] rot = IntMutilation(intify(obj.transform.eulerAngles.z));
-		byte[] outBytes = new byte[16];
+		Debug.Log(obj.transform.eulerAngles.z);
+		byte[] xPos = BitConverter.GetBytes(obj.transform.position.x);
+		byte[] yPos = BitConverter.GetBytes(obj.transform.position.y);
+		byte[] rot = BitConverter.GetBytes(obj.transform.rotation.eulerAngles.z);
+		byte[] outBytes = new byte[13];
 		outBytes[0] = 2;
-		Buffer.BlockCopy(xPos, 0, outBytes, 1, 5);
-		Buffer.BlockCopy(yPos, 0, outBytes, 6, 5);
-        Buffer.BlockCopy(rot, 0, outBytes, 11, 5);
-        //Debug.Log(outBytes[8].ToString("X") + " " + outBytes[7].ToString("X") + " " + outBytes[6].ToString("X") + " " + outBytes[5].ToString("X"));
+		Buffer.BlockCopy(xPos, 0, outBytes, 1, 4);
+		Buffer.BlockCopy(yPos, 0, outBytes, 5, 4);
+        Buffer.BlockCopy(rot, 0, outBytes, 9, 4);
 		SendMessage(outBytes);
-	}
-
-	private int intify(float x)
-	{
-		return (int)(1000 * x);
-	}
-	private float floatify(int x)
-	{
-		return ((float)x) / 1000;
-	}
-
-	// Does unholy things to ints
-	private static byte[] IntMutilation(int x)
-	{
-		// Create byte systems for integer and output long
-		byte[] xBytes = BitConverter.GetBytes(x);
-		byte[] mutilatedBytes = new byte[5];
-
-		// Add 0x20 to the stupid numbers, and record that we did that in the extra space in the long
-		for (int i = 0; i < 4; i++)
-		{
-			if (xBytes[i] >= 0x80 && xBytes[i] < 0xA0)
-			{
-				xBytes[i] += 0x20;
-				mutilatedBytes[4] += (byte)(1 << i);
-			}
-		}
-		// Copy the mutilated int into the long
-		Buffer.BlockCopy(xBytes, 0, mutilatedBytes, 0, 4);
-		return mutilatedBytes;
-	}
-
-	// I almost wish I believed in God so I could un-believe in him for this error
-	private static int IntUnMutilation(byte[] x)
-	{
-		byte[] xBytes = new byte[4];
-		Buffer.BlockCopy(x, 0, xBytes, 0, 4);
-		for (int i = 0; i < 4; i++)
-		{
-			if ((x[4] & (byte)(1 << i)) > 0)
-			{
-				xBytes[i] -= 0x20;
-			}
-		}
-		return BitConverter.ToInt32(xBytes, 0);
 	}
 }
