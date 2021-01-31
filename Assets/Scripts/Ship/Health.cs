@@ -7,17 +7,20 @@ public class Health : MonoBehaviour
     private float health = 100;
     public ProgressBar Pb;
     public GameObject shipExplosionExample;
+    private AudioSource hitSound;
     // Start is called before the first frame update
     void Start()
     {
         Pb = GameObject.Find("HealthBar").GetComponent<ProgressBar>();
         health = 100;
         Pb.BarValue = health;
+        hitSound = GetComponent<AudioSource>();
     }
 
     public void DecrementHealth(float am, GameObject ship)
     {
-        //Debug.Log("health " + health);
+        hitSound.Play();
+
         health -= am;
         Pb.BarValue = health; 
         if (health <= 0)
