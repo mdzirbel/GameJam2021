@@ -133,7 +133,7 @@ MonoBehaviour:
   expansionSpeed: 0.5
   maxSize: 0.5
   expansionRadius: 0
-  damageAtCenter: 200
+  damageAtCenter: 80
   currentDamage: 0
   doesDamage: 1
 --- !u!58 &-2264386697482005341
