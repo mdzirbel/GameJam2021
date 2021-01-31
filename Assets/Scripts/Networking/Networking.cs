@@ -14,13 +14,14 @@ public class Networking : MonoBehaviour
 	public GameObject exampleShip;
 	public GameObject exampleExplosion;
 	public GameObject exampleShipExplosion;
+	public GameObject examplePing;
 	#region private members 	
 	private TcpClient socketConnection;
 	private Thread clientReceiveThread;
 	#endregion
 	private Dictionary<int, GameObject> ships = new Dictionary<int, GameObject>();
 	private System.Object threadLocker = new System.Object();
-	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9};
+	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9, 9};
 	// Use this for initialization 	
 	void Awake()
 	{
@@ -84,6 +85,15 @@ public class Networking : MonoBehaviour
 					System.Random rnd = new System.Random();
 					Quaternion rotation = Quaternion.Euler(0, 0, rnd.Next(360));
 					GameObject explosion = Instantiate(exampleShipExplosion, explosionPosition, rotation);
+				}
+				else if (incomingData[0] == 8)
+				{
+					float xPos = getFloat(incomingData, 1);
+					float yPos = getFloat(incomingData, 5);
+					Vector3 pingPosition = new Vector3(xPos, yPos, 0);
+					System.Random rnd = new System.Random();
+					Quaternion rotation = Quaternion.Euler(0, 0, rnd.Next(360));
+					GameObject explosion = Instantiate(examplePing, pingPosition, rotation);
 				}
 			}
 			if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastSend > 500)
@@ -253,6 +263,22 @@ public class Networking : MonoBehaviour
 		byte[] yPos = BitConverter.GetBytes(position.y);
 		byte[] outBytes = new byte[9];
 		outBytes[0] = 7;
+		Buffer.BlockCopy(xPos, 0, outBytes, 1, 4);
+		Buffer.BlockCopy(yPos, 0, outBytes, 5, 4);
+		SendMessage(outBytes);
+	}
+	public void SendPing(Vector3 position)
+	{
+		System.Random rnd = new System.Random();
+		if(rnd.Next(100)>20)//percent chance to fail
+        {
+			return;
+		}
+		//Debug.Log("Send Ping");
+		byte[] xPos = BitConverter.GetBytes(position.x);
+		byte[] yPos = BitConverter.GetBytes(position.y);
+		byte[] outBytes = new byte[9];
+		outBytes[0] = 9;
 		Buffer.BlockCopy(xPos, 0, outBytes, 1, 4);
 		Buffer.BlockCopy(yPos, 0, outBytes, 5, 4);
 		SendMessage(outBytes);
