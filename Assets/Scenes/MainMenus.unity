@@ -1209,6 +1209,8 @@ MonoBehaviour:
     type: 3}
   exampleExplosion: {fileID: 8149016248802764018, guid: 167ede1e53928d4409e76a16dbad209d,
     type: 3}
+  exampleShipExplosion: {fileID: 2672203238691168869, guid: 0dbd871fdd3e4624d8a02afd9c5c8f2c,
+    type: 3}
 --- !u!4 &794915261
 Transform:
   m_ObjectHideFlags: 0
