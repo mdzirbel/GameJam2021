@@ -20,7 +20,7 @@ public class Networking : MonoBehaviour
 	#endregion
 	private Dictionary<int, GameObject> ships = new Dictionary<int, GameObject>();
 	private System.Object threadLocker = new System.Object();
-	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 1, 9, 1, 9};
+	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9};
 	// Use this for initialization 	
 	void Awake()
 	{
@@ -61,6 +61,8 @@ public class Networking : MonoBehaviour
 				else if (incomingData[0] == 4)
 				{
 					SceneManager.LoadScene("Game");
+					UnityEngine.UI.Text textLabel = GameObject.Find("YouLabel").GetComponent<UnityEngine.UI.Text>();
+					textLabel.text = "You are ship " + incomingData[1];
 				}
 				else if (incomingData[0] == 5)
 				{
@@ -70,6 +72,9 @@ public class Networking : MonoBehaviour
 					System.Random rnd = new System.Random();
 					Quaternion rotation = Quaternion.Euler(0, 0, rnd.Next(360));
 					GameObject explosion = Instantiate(exampleExplosion, explosionPosition, rotation);
+				}
+				else if (incomingData[0] == 6)
+				{
 				}
 				else if (incomingData[0] == 7)
 				{

@@ -104,14 +104,6 @@ public class ProgressBar : MonoBehaviour
 
             barBackground.sprite = BarBackGroundSprite;           
         }
-        else
-        {
-            if (Alert >= barValue && Time.time > nextPlay)
-            {
-                nextPlay = Time.time + RepeatRate;
-                audiosource.PlayOneShot(sound);
-            }
-        }
     }
 
 }
