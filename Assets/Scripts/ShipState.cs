@@ -7,6 +7,10 @@ public class ShipState : MonoBehaviour
     public int totalWattsAvailable;
     private int currentWattsAvailable;
 
+    public float chargeRate = .1f;
+    public float dischargeRate = .05f;
+    public float chargeConstant = .01f;
+
     enum Module
     {
         thrusters = 0,
@@ -55,7 +59,15 @@ public class ShipState : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+        ChargeCapacitors();
+    }
+
+    void ChargeCapacitors()
+    {
+        foreach (KeyValuePair<Module, float> module in ModuleJules)
+        {
+
+        }
     }
 
     int GetCurrentWattsAvaiable()
