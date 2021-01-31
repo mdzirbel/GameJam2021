@@ -597,50 +597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677dc65bef67c0f4d94a8ed5ed48fb50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &252520208
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 252520210}
-  - component: {fileID: 252520209}
-  m_Layer: 0
-  m_Name: Network Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &252520209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252520208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b74cdcf7743a17e4598a786b515d546d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  exampleShip: {fileID: 0}
---- !u!4 &252520210
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 252520208}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 463.55313, y: 261.84494, z: -39.1875}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &309109154
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,6 +1478,7 @@ GameObject:
   - component: {fileID: 720499166}
   - component: {fileID: 720499169}
   - component: {fileID: 720499167}
+  - component: {fileID: 720499168}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -1592,8 +1549,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1959909940}
-        m_MethodName: ExitGame
+      - m_Target: {fileID: 720499168}
+        m_MethodName: quitAL
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1603,6 +1560,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &720499168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720499165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e88acbbcd2d31f48a650cf23e711603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &720499169
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1818,6 +1787,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787695221}
   m_CullTransparentMesh: 0
+--- !u!1 &794915259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 794915261}
+  - component: {fileID: 794915260}
+  m_Layer: 0
+  m_Name: Networking Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &794915260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794915259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74cdcf7743a17e4598a786b515d546d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exampleShip: {fileID: 246169920457405975, guid: 790b0e58db75cc847b5bca6d7bd1704b,
+    type: 3}
+--- !u!4 &794915261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794915259}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 466.64536, y: 260.48032, z: -74.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &827934894
 GameObject:
   m_ObjectHideFlags: 0
@@ -3265,7 +3279,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252520209}
+      - m_Target: {fileID: 0}
         m_MethodName: ConnectToGameAL
         m_Mode: 1
         m_Arguments:

@@ -74,6 +74,7 @@ public class Networking : MonoBehaviour
 		socketConnection.GetStream().Flush();
 		socketConnection.Close();
 		Debug.Log("Closed");
+		if (!Application.isEditor) { System.Diagnostics.Process.GetCurrentProcess().Kill(); }
 	}
 	/// <summary> 	
 	/// Setup socket connection. 	
