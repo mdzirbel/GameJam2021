@@ -44,6 +44,12 @@ TagManager:
   - name: ForeBackground
     uniqueID: 2253424567
     locked: 0
+  - name: Radar
+    uniqueID: 1099690785
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Explosion
+    uniqueID: 3046008007
     locked: 0
