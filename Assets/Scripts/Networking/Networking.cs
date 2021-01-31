@@ -13,14 +13,13 @@ public class Networking : MonoBehaviour
 	public static Networking Instance;
 	public GameObject exampleShip;
 	public GameObject exampleExplosion;
-	public GameObject exampleShipExplosion;
 	#region private members 	
 	private TcpClient socketConnection;
 	private Thread clientReceiveThread;
 	#endregion
 	private Dictionary<int, GameObject> ships = new Dictionary<int, GameObject>();
 	private System.Object threadLocker = new System.Object();
-	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 1, 9, 1, 9};
+	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 1, 9};
 	// Use this for initialization 	
 	void Awake()
 	{
@@ -67,18 +66,8 @@ public class Networking : MonoBehaviour
 					float xPos = getFloat(incomingData, 1);
 					float yPos = getFloat(incomingData, 5);
 					Vector3 explosionPosition = new Vector3(xPos, yPos, 0);
-					System.Random rnd = new System.Random();
-					Quaternion rotation = Quaternion.Euler(0, 0, rnd.Next(360));
-					GameObject explosion = Instantiate(exampleExplosion, explosionPosition, rotation);
-				}
-				else if (incomingData[0] == 7)
-				{
-					float xPos = getFloat(incomingData, 1);
-					float yPos = getFloat(incomingData, 5);
-					Vector3 explosionPosition = new Vector3(xPos, yPos, 0);
-					System.Random rnd = new System.Random();
-					Quaternion rotation = Quaternion.Euler(0, 0, rnd.Next(360));
-					GameObject explosion = Instantiate(exampleShipExplosion, explosionPosition, rotation);
+					Debug.Log(xPos+"\t"+ yPos);
+					GameObject explosion = Instantiate(exampleExplosion, explosionPosition, Quaternion.identity);
 				}
 			}
 			if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastSend > 500)
@@ -132,7 +121,7 @@ public class Networking : MonoBehaviour
 		try
 		{
 			socketConnection = new TcpClient("74.140.3.27", 4162);
-			Debug.Log("Connected:" + socketConnection.Connected);
+			Debug.Log("Connected:"+ socketConnection.Connected);
 			NetworkStream stream = socketConnection.GetStream();
 			while (!stopThread && stream.CanRead)
 			{
@@ -193,9 +182,9 @@ public class Networking : MonoBehaviour
 		}
 	}
 	public void CreateGameAL()
-	{
+    {
 
-	}
+    }
 	public void CreateGame()
 	{
 		byte[] message = new byte[1];
@@ -207,7 +196,7 @@ public class Networking : MonoBehaviour
 		ConnectToGame("AAAA");
 	}
 	public void ConnectToGame(string id)
-	{
+    {
 		byte[] message = new byte[5];
 		message[0] = 1;
 		byte[] idBytes = Encoding.ASCII.GetBytes(id);
@@ -232,22 +221,6 @@ public class Networking : MonoBehaviour
 		byte[] yPos = BitConverter.GetBytes(position.y);
 		byte[] outBytes = new byte[9];
 		outBytes[0] = 5;
-		Buffer.BlockCopy(xPos, 0, outBytes, 1, 4);
-		Buffer.BlockCopy(yPos, 0, outBytes, 5, 4);
-		SendMessage(outBytes);
-	}
-	public void SendDied()
-	{
-		byte[] outBytes = new byte[1];
-		outBytes[0] = 6;
-		SendMessage(outBytes);
-	}
-	public void SendShipExplosion(Vector3 position)
-	{
-		byte[] xPos = BitConverter.GetBytes(position.x);
-		byte[] yPos = BitConverter.GetBytes(position.y);
-		byte[] outBytes = new byte[9];
-		outBytes[0] = 7;
 		Buffer.BlockCopy(xPos, 0, outBytes, 1, 4);
 		Buffer.BlockCopy(yPos, 0, outBytes, 5, 4);
 		SendMessage(outBytes);

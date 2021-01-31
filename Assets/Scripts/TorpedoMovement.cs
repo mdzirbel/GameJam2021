@@ -29,12 +29,10 @@ public class TorpedoMovement : MonoBehaviour
     {
         if (other.gameObject != parent)
         {
-            System.Random rnd = new System.Random();
-            Quaternion rotation = Quaternion.Euler(0, 0, rnd.Next(360));
-            Instantiate(explosion, transform.position, rotation);
+            Networking.Instance.SendExplosion(transform.position);
+            Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
             Destroy(torpedoDestination);
-            Networking.Instance.SendExplosion(transform.position);
         }
     }
 }
