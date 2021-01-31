@@ -63,7 +63,10 @@ public class Networking : MonoBehaviour
 				}
 				else if (incomingData[0] == 5)
 				{
-					Vector3 explosionPosition = new Vector3(getFloat(incomingData, 1), getFloat(incomingData, 5), 0);
+					float xPos = getFloat(incomingData, 1);
+					float yPos = getFloat(incomingData, 5);
+					Vector3 explosionPosition = new Vector3(xPos, yPos, 0);
+					Debug.Log(xPos+"\t"+ yPos);
 					GameObject explosion = Instantiate(exampleExplosion, explosionPosition, Quaternion.identity);
 				}
 			}
@@ -84,7 +87,7 @@ public class Networking : MonoBehaviour
 		clientReceiveThread.Join();
 		socketConnection.Close();
 		Debug.Log("Closed");
-		//if (!Application.isEditor) { System.Diagnostics.Process.GetCurrentProcess().Kill(); }
+		if (!Application.isEditor) { System.Diagnostics.Process.GetCurrentProcess().Kill(); }
 	}
 	/// <summary> 	
 	/// Setup socket connection. 	
@@ -120,7 +123,7 @@ public class Networking : MonoBehaviour
 			socketConnection = new TcpClient("74.140.3.27", 4162);
 			Debug.Log("Connected:"+ socketConnection.Connected);
 			NetworkStream stream = socketConnection.GetStream();
-			while (!stopThread)
+			while (!stopThread && stream.CanRead)
 			{
 				Byte[] bytes = new Byte[1024];
 				// Get a stream object for reading 			
