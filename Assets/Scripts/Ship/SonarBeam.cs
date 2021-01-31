@@ -63,7 +63,7 @@ public class SonarBeam : MonoBehaviour
 
             GameObject segment = Instantiate(sonarSegment, transform.position, Quaternion.Euler(0, 0, segmentAngle-90));
             segment.transform.parent = transform.parent;
-            segment.GetComponent<SonarSegment>().Initialize(true, gameObject);
+            segment.GetComponent<SonarSegment>().Initialize(i % nthSegmentPings == 0, gameObject);
         }
     }
 }
