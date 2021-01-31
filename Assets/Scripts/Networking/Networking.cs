@@ -42,20 +42,28 @@ public class Networking : MonoBehaviour
 					var ship = Instantiate(exampleShip, new Vector3(0, 0, 0), Quaternion.identity);
 					ships.Add(incomingData[1], ship);
 				}
-				if (incomingData[0] == 2)
+				else if (incomingData[0] == 2)
 				{
 					var ship = ships[incomingData[1]];
 					ship.transform.position = new Vector3(getFloat(incomingData, 2), getFloat(incomingData, 6), 0);
-					Debug.Log(getFloat(incomingData, 10));
 					ship.transform.eulerAngles = new Vector3(0, 0, getFloat(incomingData, 10));
+				}
+				else if (incomingData[0] == 3)
+				{
+					var ship = ships[incomingData[1]];
+					Debug.Log("Destroying " + ship);
+					Destroy(ship);
 				}
 			}
 		}
 	}
 	void OnApplicationQuit()
-    {
+	{
 		Debug.Log("Closing Socket");
+		SendMessage(new byte[] { 3 });
+		socketConnection.GetStream().Flush();
 		socketConnection.Close();
+		Debug.Log("Closed");
 	}
 	/// <summary> 	
 	/// Setup socket connection. 	
@@ -96,7 +104,7 @@ public class Networking : MonoBehaviour
 				using (NetworkStream stream = socketConnection.GetStream())
 				{
 					int length;
-					// Read incoming stream into byte arrary. 					
+					// Read incoming stream into byte arrary. 
 					while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
 					{
 						var incomingData = new byte[length];
@@ -138,9 +146,22 @@ public class Networking : MonoBehaviour
 			Debug.Log("Socket exception: " + socketException);
 		}
 	}
+	public void CreateGame()
+	{
+		byte[] message = new byte[1];
+		message[0] = 0;
+		SendMessage(message);
+	}
+	public void ConnectToGame(string id)
+    {
+		byte[] message = new byte[5];
+		message[0] = 1;
+		byte[] idBytes = Encoding.ASCII.GetBytes(id);
+		Array.Copy(message, 1, idBytes, 0, 4);
+		SendMessage(message);
+    }
 	public void SendPosition(GameObject obj)
 	{
-		Debug.Log(obj.transform.eulerAngles.z);
 		byte[] xPos = BitConverter.GetBytes(obj.transform.position.x);
 		byte[] yPos = BitConverter.GetBytes(obj.transform.position.y);
 		byte[] rot = BitConverter.GetBytes(obj.transform.rotation.eulerAngles.z);
