@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8149016248802764016}
   - component: {fileID: 8149016248802764017}
   - component: {fileID: 8149016248802764022}
+  - component: {fileID: 5053609722813888547}
+  - component: {fileID: -4703140945033268143}
   m_Layer: 0
   m_Name: ProtonExplosion
   m_TagString: Untagged
@@ -116,3 +118,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeUntilRemove: 10
+--- !u!114 &5053609722813888547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149016248802764018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1e9a7d99e0d4342b1d89f4deab763c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expansionSpeed: 0.5
+  maxSize: 0.5
+  expansionRadius: 0
+  damageAtCenter: 10
+  currentDamage: 0
+  doesDamage: 1
+--- !u!58 &-4703140945033268143
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149016248802764018}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
