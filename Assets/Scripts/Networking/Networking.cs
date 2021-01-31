@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class Networking : MonoBehaviour
@@ -29,7 +30,7 @@ public class Networking : MonoBehaviour
 		Instance = this;
 		ConnectToTcpServer();
 	}
-	// Update is called once per frame
+	long lastSend = 0;
 	void Update()
 	{
 		lock (threadLocker)
@@ -54,6 +55,15 @@ public class Networking : MonoBehaviour
 					Debug.Log("Destroying " + ship);
 					Destroy(ship);
 				}
+				else if(incomingData[0]==4)
+                {
+					SceneManager.LoadScene("Game");
+				}
+			}
+			if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastSend > 500)
+			{
+				lastSend = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+				SendMessage(new byte[] { 4 });
 			}
 		}
 	}
@@ -75,6 +85,7 @@ public class Networking : MonoBehaviour
 			clientReceiveThread = new Thread(new ThreadStart(ListenForData));
 			clientReceiveThread.IsBackground = true;
 			clientReceiveThread.Start();
+			lastSend = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 		}
 		catch (Exception e)
 		{
@@ -146,18 +157,26 @@ public class Networking : MonoBehaviour
 			Debug.Log("Socket exception: " + socketException);
 		}
 	}
+	public void CreateGameAL()
+    {
+
+    }
 	public void CreateGame()
 	{
 		byte[] message = new byte[1];
 		message[0] = 0;
 		SendMessage(message);
 	}
+	public void ConnectToGameAL()
+	{
+		ConnectToGame("AAAA");
+	}
 	public void ConnectToGame(string id)
     {
 		byte[] message = new byte[5];
 		message[0] = 1;
 		byte[] idBytes = Encoding.ASCII.GetBytes(id);
-		Array.Copy(message, 1, idBytes, 0, 4);
+		Array.Copy(idBytes, 0, message, 1, 4);
 		SendMessage(message);
     }
 	public void SendPosition(GameObject obj)
