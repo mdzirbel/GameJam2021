@@ -46,11 +46,6 @@ public class SonarSegment : MonoBehaviour
             if (pingsOnHit)
             {
                 GameObject pingInstance = Instantiate(ping, transform.position, Quaternion.identity);
-
-                if (other.gameObject) {
-                    RemoveAnimation pingScript = pingInstance.GetComponent<RemoveAnimation>();
-                    pingScript.TimeUntilRemove = 1;
-                }
             }
             pingsOnHit = false;
             Destroy(gameObject);
