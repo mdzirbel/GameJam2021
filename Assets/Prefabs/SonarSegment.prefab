@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   timeoutTime: 5
-  ping: {fileID: 0}
+  ping: {fileID: 6915670574663452145, guid: aa453aed392ad114099022cf2f25519b, type: 3}
 --- !u!70 &3655447613440295968
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

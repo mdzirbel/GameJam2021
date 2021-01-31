@@ -91,7 +91,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7979792204202706108}
-  m_BodyType: 2
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -103,7 +103,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!60 &4905752240534450543
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -133,11 +133,7 @@ PolygonCollider2D:
       - {x: -0.08387459, y: 0.5900238}
       - {x: -0.4585781, y: 0.52926284}
       - {x: -0.53356737, y: 0.29780713}
-      - {x: -0.64357173, y: 0.12852573}
       - {x: -0.62921345, y: -0.061227404}
-      - {x: -0.4499855, y: -0.18283248}
-      - {x: -0.38278937, y: -0.33786047}
-      - {x: -0.13212001, y: -0.41570893}
       - {x: 0.048510954, y: -0.5936205}
       - {x: 0.1931541, y: -0.53470266}
       - {x: 0.2378585, y: -0.2720229}

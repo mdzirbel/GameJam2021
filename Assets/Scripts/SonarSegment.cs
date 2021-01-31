@@ -21,6 +21,11 @@ public class SonarSegment : MonoBehaviour
     {
         pingsOnHit = givesPing;
         parent = parentObject;
+
+        //if (!givesPing)
+        //{
+        //    Destroy(gameObject.GetComponent<CapsuleCollider2D>());
+        //}
     }
 
     // Update is called once per frame
@@ -36,9 +41,14 @@ public class SonarSegment : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject != parent && pingsOnHit)
+        if (other.gameObject != parent)
         {
-            //Instantiate(ping, transform.position, Quaternion.identity);
+            if (pingsOnHit)
+            {
+                Instantiate(ping, transform.position, Quaternion.identity);
+            }
+            pingsOnHit = false;
+            Destroy(gameObject);
         }
     }
 }

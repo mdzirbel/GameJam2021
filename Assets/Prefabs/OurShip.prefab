@@ -96,8 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2080ae4c076b21649b2dbfbaae904e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verticalAcceleration: 16
-  turningStrength: 1.5
+  verticalAcceleration: 10
+  turningStrength: 2.5
 --- !u!114 &6551983513701531067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,9 +144,9 @@ MonoBehaviour:
   sonarSegment: {fileID: 4210157204381087221, guid: d46938597d1fd7a4db9e1a7ad05c5971,
     type: 3}
   radarWidth: 45
-  radarSegmentsPerPulse: 200
-  nthSegmentPings: 0
-  timeBetweenPulses: 3
+  radarSegmentsPerPulse: 100
+  nthSegmentPings: 20
+  timeBetweenPulses: 1
 --- !u!1001 &8169719353640874230
 PrefabInstance:
   m_ObjectHideFlags: 0
