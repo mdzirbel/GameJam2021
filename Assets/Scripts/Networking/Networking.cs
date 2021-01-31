@@ -12,12 +12,14 @@ public class Networking : MonoBehaviour
 {
 	public static Networking Instance;
 	public GameObject exampleShip;
+	public GameObject exampleExplosion;
 	#region private members 	
 	private TcpClient socketConnection;
 	private Thread clientReceiveThread;
 	#endregion
 	private Dictionary<int, GameObject> ships = new Dictionary<int, GameObject>();
 	private System.Object threadLocker = new System.Object();
+	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 1, 9};
 	// Use this for initialization 	
 	void Awake()
 	{
@@ -26,7 +28,7 @@ public class Networking : MonoBehaviour
 			Debug.LogError("There is more than one instance!");
 			return;
 		}
-
+		DontDestroyOnLoad(this.gameObject);
 		Instance = this;
 		ConnectToTcpServer();
 	}
@@ -55,9 +57,14 @@ public class Networking : MonoBehaviour
 					Debug.Log("Destroying " + ship);
 					Destroy(ship);
 				}
-				else if(incomingData[0]==4)
-                {
+				else if (incomingData[0] == 4)
+				{
 					SceneManager.LoadScene("Game");
+				}
+				else if (incomingData[0] == 5)
+				{
+					Vector3 explosionPosition = new Vector3(getFloat(incomingData, 1), getFloat(incomingData, 5), 0);
+					GameObject explosion = Instantiate(exampleExplosion, explosionPosition, Quaternion.identity);
 				}
 			}
 			if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastSend > 500)
@@ -67,14 +74,17 @@ public class Networking : MonoBehaviour
 			}
 		}
 	}
+	bool stopThread = false;
 	void OnApplicationQuit()
 	{
 		Debug.Log("Closing Socket");
 		SendMessage(new byte[] { 3 });
 		socketConnection.GetStream().Flush();
+		stopThread = true;
+		clientReceiveThread.Join();
 		socketConnection.Close();
 		Debug.Log("Closed");
-		if (!Application.isEditor) { System.Diagnostics.Process.GetCurrentProcess().Kill(); }
+		//if (!Application.isEditor) { System.Diagnostics.Process.GetCurrentProcess().Kill(); }
 	}
 	/// <summary> 	
 	/// Setup socket connection. 	
@@ -108,26 +118,36 @@ public class Networking : MonoBehaviour
 		try
 		{
 			socketConnection = new TcpClient("74.140.3.27", 4162);
-			Debug.Log("Connecting");
-			while (true)
+			Debug.Log("Connected:"+ socketConnection.Connected);
+			NetworkStream stream = socketConnection.GetStream();
+			while (!stopThread)
 			{
 				Byte[] bytes = new Byte[1024];
-				// Get a stream object for reading 				
-				using (NetworkStream stream = socketConnection.GetStream())
+				// Get a stream object for reading 			
+				int numRead;
+				// Read incoming stream into byte arrary. 
+				while (stream.DataAvailable)
 				{
-					int length;
-					// Read incoming stream into byte arrary. 
-					while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
+					numRead = stream.Read(bytes, 0, bytes.Length);
+					lock (threadLocker)
 					{
-						var incomingData = new byte[length];
-						Array.Copy(bytes, 0, incomingData, 0, length);
-						lock (threadLocker)
+						var multiMessageData = new byte[numRead];
+						Array.Copy(bytes, 0, multiMessageData, 0, numRead);
+						int index = 0;
+						while (index != multiMessageData.Length)
 						{
-							procData.Enqueue(incomingData);
+							int messageLength = TYPE_TO_LENGTH[multiMessageData[index]];
+							byte[] messageData = new byte[messageLength];
+							Array.Copy(multiMessageData, index, messageData, 0, messageLength);
+							procData.Enqueue(messageData);
+							//Debug.Log(messageData.Length);
+							index += messageLength;
 						}
 					}
 				}
+				Thread.Sleep(1);
 			}
+			Debug.Log("Thread Stopped");
 		}
 		catch (SocketException socketException)
 		{
@@ -179,7 +199,7 @@ public class Networking : MonoBehaviour
 		byte[] idBytes = Encoding.ASCII.GetBytes(id);
 		Array.Copy(idBytes, 0, message, 1, 4);
 		SendMessage(message);
-    }
+	}
 	public void SendPosition(GameObject obj)
 	{
 		byte[] xPos = BitConverter.GetBytes(obj.transform.position.x);
@@ -189,7 +209,17 @@ public class Networking : MonoBehaviour
 		outBytes[0] = 2;
 		Buffer.BlockCopy(xPos, 0, outBytes, 1, 4);
 		Buffer.BlockCopy(yPos, 0, outBytes, 5, 4);
-        Buffer.BlockCopy(rot, 0, outBytes, 9, 4);
+		Buffer.BlockCopy(rot, 0, outBytes, 9, 4);
+		SendMessage(outBytes);
+	}
+	public void SendExplosion(Vector3 position)
+	{
+		byte[] xPos = BitConverter.GetBytes(position.x);
+		byte[] yPos = BitConverter.GetBytes(position.y);
+		byte[] outBytes = new byte[9];
+		outBytes[0] = 5;
+		Buffer.BlockCopy(xPos, 0, outBytes, 1, 4);
+		Buffer.BlockCopy(yPos, 0, outBytes, 5, 4);
 		SendMessage(outBytes);
 	}
 }
