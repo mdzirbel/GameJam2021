@@ -318,6 +318,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 8353965158196724725, guid: d107ed4cb31e966409714fc7999c32b1,
+        type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 8353965158196724726, guid: d107ed4cb31e966409714fc7999c32b1,
         type: 3}
       propertyPath: ship
