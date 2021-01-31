@@ -270,7 +270,7 @@ public class Networking : MonoBehaviour
 	public void SendPing(Vector3 position)
 	{
 		System.Random rnd = new System.Random();
-		if(rnd.Next(100)>20)//percent chance to fail
+		if(rnd.Next(100)>101)//percent chance to fail
         {
 			return;
 		}
