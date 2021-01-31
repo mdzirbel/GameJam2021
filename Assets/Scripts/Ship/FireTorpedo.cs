@@ -8,17 +8,24 @@ public class FireTorpedo : MonoBehaviour
     public GameObject torpedo;
     public GameObject torpedoDestination;
 
+    public float timeBetweenMissles;
+    private float timeSinceMissile;
+
     private ShipState shipState;
     // Start is called before the first frame update
     void Start()
     {
         shipState = GetComponent<ShipState>();
+        timeSinceMissile = 3f;
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && shipState.canFireMissile)
+        timeSinceMissile += Time.fixedDeltaTime;
+
+        if (Input.GetMouseButtonDown(0) && timeSinceMissile > timeBetweenMissles)
         {
+            timeSinceMissile = 0f;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Vector3 clickPosition = ray.GetPoint(Math.Abs(Camera.main.transform.position.z));
             clickPosition.z = 0;

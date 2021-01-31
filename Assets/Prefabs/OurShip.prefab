@@ -115,6 +115,8 @@ MonoBehaviour:
   torpedo: {fileID: 2874019125479290445, guid: 3041e9df695540e4a8a00dbf303f21dc, type: 3}
   torpedoDestination: {fileID: 2143593227359538794, guid: b871f22c2d312b740b50a46095177794,
     type: 3}
+  timeBetweenMissles: 1
+  timeSinceMissile: 0
 --- !u!114 &6243984188365974085
 MonoBehaviour:
   m_ObjectHideFlags: 0
