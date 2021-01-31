@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5118202644478800716}
   - component: {fileID: 6551983513701531067}
   - component: {fileID: 6243984188365974085}
+  - component: {fileID: 6316636819585865282}
   m_Layer: 0
   m_Name: OurShip
   m_TagString: Untagged
@@ -128,6 +129,20 @@ MonoBehaviour:
   chargeRate: 0.1
   dischargeRate: 0.05
   chargeConstant: 0.01
+--- !u!114 &6316636819585865282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8169719355107899658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff8063da364ba94c925f75f34ac70c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipExplosionExample: {fileID: 2672203238691168869, guid: 0dbd871fdd3e4624d8a02afd9c5c8f2c,
+    type: 3}
 --- !u!1001 &8169719353640874230
 PrefabInstance:
   m_ObjectHideFlags: 0
