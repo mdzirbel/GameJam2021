@@ -14,7 +14,6 @@ public class FireTorpedo : MonoBehaviour
     {
         shipState = GetComponent<ShipState>();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -27,7 +26,6 @@ public class FireTorpedo : MonoBehaviour
             //Debug.Log(ray.GetPoint(Math.Abs(Camera.main.transform.position.z)));
         }
     }
-
     void Fire(Vector3 destination)
     {
         GameObject torpedoDestinationInstance = Instantiate(torpedoDestination, destination, Quaternion.identity);

@@ -22,7 +22,7 @@ public class TorpedoMovement : MonoBehaviour
         transform.up = torpedoDestination.transform.position - transform.position;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Hit");
     }
