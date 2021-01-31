@@ -61,8 +61,8 @@ public class Networking : MonoBehaviour
 				else if (incomingData[0] == 4)
 				{
 					SceneManager.LoadScene("Game");
-					UnityEngine.UI.Text textLabel = GameObject.Find("YouLabel").GetComponent<UnityEngine.UI.Text>();
-					textLabel.text = "You are ship " + incomingData[1];
+					//UnityEngine.UI.Text textLabel = GameObject.Find("YouLabel").GetComponent<UnityEngine.UI.Text>();
+					//textLabel.text = "You are ship " + incomingData[1];
 				}
 				else if (incomingData[0] == 5)
 				{
