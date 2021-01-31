@@ -67,7 +67,9 @@ public class Networking : MonoBehaviour
 					float yPos = getFloat(incomingData, 5);
 					Vector3 explosionPosition = new Vector3(xPos, yPos, 0);
 					Debug.Log(xPos+"\t"+ yPos);
-					GameObject explosion = Instantiate(exampleExplosion, explosionPosition, Quaternion.identity);
+					System.Random rnd = new System.Random();
+					Quaternion rotation = Quaternion.Euler(0, 0, rnd.Next(360));
+					GameObject explosion = Instantiate(exampleExplosion, explosionPosition, rotation);
 				}
 			}
 			if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastSend > 500)
