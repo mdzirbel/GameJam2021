@@ -116,7 +116,6 @@ MonoBehaviour:
   torpedoDestination: {fileID: 2143593227359538794, guid: b871f22c2d312b740b50a46095177794,
     type: 3}
   timeBetweenMissles: 1
-  timeSinceMissile: 0
 --- !u!114 &6243984188365974085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +148,7 @@ MonoBehaviour:
     type: 3}
   radarWidth: 45
   radarSegmentsPerPulse: 100
-  nthSegmentPings: 20
+  nthSegmentPings: 4
   timeBetweenPulses: 1
 --- !u!114 &4876047949706964531
 MonoBehaviour:
