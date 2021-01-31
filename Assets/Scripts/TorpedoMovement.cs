@@ -5,14 +5,17 @@ using UnityEngine;
 public class TorpedoMovement : MonoBehaviour
 {
     public float speed;
+    public GameObject explosion;
 
     private bool isInitialized = false;
     private GameObject torpedoDestination;
+    private GameObject parent;
 
-    public void Initialize(GameObject destination)
+    public void Initialize(GameObject destination, GameObject parentObject)
     {
         isInitialized = true;
         torpedoDestination = destination;
+        parent = parentObject;
     }
 
     // Update is called once per frame
@@ -24,6 +27,11 @@ public class TorpedoMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Hit");
+        if (other.gameObject != parent)
+        {
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+            Destroy(torpedoDestination);
+        }
     }
 }

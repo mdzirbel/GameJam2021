@@ -30,6 +30,6 @@ public class FireTorpedo : MonoBehaviour
     {
         GameObject torpedoDestinationInstance = Instantiate(torpedoDestination, destination, Quaternion.identity);
         GameObject torpedoInstance = Instantiate(torpedo, transform.position, Quaternion.identity);
-        torpedoInstance.GetComponent<TorpedoMovement>().Initialize(torpedoDestinationInstance);
+        torpedoInstance.GetComponent<TorpedoMovement>().Initialize(torpedoDestinationInstance, gameObject);
     }
 }
