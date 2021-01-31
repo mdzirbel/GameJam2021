@@ -45,6 +45,7 @@ public class SonarSegment : MonoBehaviour
         {
             if (pingsOnHit)
             {
+                Networking.Instance.SendPing(transform.position);
                 GameObject pingInstance = Instantiate(ping, transform.position, Quaternion.identity);
             }
             pingsOnHit = false;
