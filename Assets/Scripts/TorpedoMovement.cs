@@ -29,6 +29,7 @@ public class TorpedoMovement : MonoBehaviour
     {
         if (other.gameObject != parent)
         {
+            Networking.Instance.SendExplosion(transform.position);
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
             Destroy(torpedoDestination);
