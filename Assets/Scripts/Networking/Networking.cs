@@ -150,11 +150,11 @@ public class Networking : MonoBehaviour
 	float getOpacity(GameObject playerShip, GameObject obj)
     {
 		float dist = Vector3.Distance(playerShip.transform.position, obj.transform.position);
-		if(dist>1)
+		if(dist>2)
         {
-			dist = 1;
+			dist = 2;
         }
-		return 1-dist/2;
+		return 1-(dist/2);
 	}
 	bool stopThread = false;
 	void OnApplicationQuit()
