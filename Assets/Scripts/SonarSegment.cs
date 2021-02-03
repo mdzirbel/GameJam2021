@@ -43,7 +43,7 @@ public class SonarSegment : MonoBehaviour
     {
         if (other.gameObject != parent)
         {
-            if (pingsOnHit)
+            if (pingsOnHit && !other.gameObject.name.Contains("Wall"))
             {
                 Networking.Instance.SendPing(transform.position);
                 GameObject pingInstance = Instantiate(ping, transform.position, Quaternion.identity);

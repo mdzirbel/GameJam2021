@@ -154,7 +154,7 @@ public class Networking : MonoBehaviour
         {
 			dist = 1;
         }
-		return 1-dist;
+		return 1-dist/2;
 	}
 	bool stopThread = false;
 	void OnApplicationQuit()
