@@ -23,7 +23,7 @@ public class SonarBeam : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         timeSincePulse += Time.fixedDeltaTime;
 
