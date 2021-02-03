@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TextLabel
   - DisconnectedLabel
+  - PlayerShip
   layers:
   - Default
   - TransparentFX

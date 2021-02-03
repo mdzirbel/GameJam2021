@@ -20,9 +20,10 @@ public class Networking : MonoBehaviour
 	private TcpClient socketConnection;
 	private Thread clientReceiveThread;
 	#endregion
-	private Dictionary<int, GameObject> ships = new Dictionary<int, GameObject>();
+	private Dictionary<byte, GameObject> ships = new Dictionary<byte, GameObject>();
+	private Dictionary<byte, GameObject> dumbMissles = new Dictionary<byte, GameObject>();
 	private System.Object threadLocker = new System.Object();
-	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9, 9, 1};
+	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9, 9, 1, 14, 2};
 	// Use this for initialization 	
 	void Awake()
 	{
@@ -37,7 +38,7 @@ public class Networking : MonoBehaviour
 	}
 	long lastSend = 0;
 	long lastPingTime = 0;
-	void Update()
+	void FixedUpdate()
 	{
 		lock (threadLocker)
 		{
@@ -58,7 +59,7 @@ public class Networking : MonoBehaviour
 				else if (incomingData[0] == 3)
 				{
 					var ship = ships[incomingData[1]];
-					Debug.Log("Destroying " + ship);
+					Debug.Log("Destroying Ship " + ship);
 					Destroy(ship);
 				}
 				else if (incomingData[0] == 4)
@@ -108,10 +109,36 @@ public class Networking : MonoBehaviour
 					}
 					SendMessage(new byte[] { 4 });
 				}
+				else if (incomingData[0] == 10)
+				{
+					var dumbMissle = Instantiate(exampleMissle, new Vector3(0, 0, 0), Quaternion.identity);
+					dumbMissle.transform.position = new Vector3(getFloat(incomingData, 2), getFloat(incomingData, 6), 0);
+					dumbMissle.transform.eulerAngles = new Vector3(0, 0, getFloat(incomingData, 10));
+					dumbMissles.Add(incomingData[1], dumbMissle);
+				}
+				/*else if (incomingData[0] == 11) no need for movement streaming
+				{
+					var dumbMissle = dumbMissles[incomingData[1]];
+					dumbMissle.transform.position = new Vector3(getFloat(incomingData, 2), getFloat(incomingData, 6), 0);
+					dumbMissle.transform.eulerAngles = new Vector3(0, 0, getFloat(incomingData, 10));
+				}*/
+				else if (incomingData[0] == 11)
+				{
+					GameObject dumbMissle = dumbMissles[incomingData[1]];
+					Debug.Log("Destroying Missle" + dumbMissle);
+					Destroy(dumbMissle);
+					dumbMissles.Remove(incomingData[1]);
+				}
+			}
+			foreach (KeyValuePair<byte, GameObject> entry in dumbMissles)
+			{
+				GameObject playerShip = GameObject.FindGameObjectsWithTag("PlayerShip")[0];
+				entry.Value.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, getOpacity(playerShip, entry.Value));
 			}
 		}
-		if(DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastPingTime>2000)
-        {
+		
+		if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastPingTime > 2000)
+		{
 			GameObject textBefore = GameObject.FindWithTag("DisconnectedLabel");
 			if (textBefore != null)
 			{
@@ -119,6 +146,15 @@ public class Networking : MonoBehaviour
 				DisconnectedLabel.text = "High ping!";
 			}
 		}
+	}
+	float getOpacity(GameObject playerShip, GameObject obj)
+    {
+		float dist = Vector3.Distance(playerShip.transform.position, obj.transform.position);
+		if(dist>1)
+        {
+			dist = 1;
+        }
+		return 1-dist;
 	}
 	bool stopThread = false;
 	void OnApplicationQuit()
@@ -287,8 +323,8 @@ public class Networking : MonoBehaviour
 	public void SendPing(Vector3 position)
 	{
 		System.Random rnd = new System.Random();
-		if(rnd.Next(100)>101)//percent chance to fail
-        {
+		if (rnd.Next(100) > 101)//percent chance to fail
+		{
 			return;
 		}
 		//Debug.Log("Send Ping");
@@ -298,6 +334,28 @@ public class Networking : MonoBehaviour
 		outBytes[0] = 9;
 		Buffer.BlockCopy(xPos, 0, outBytes, 1, 4);
 		Buffer.BlockCopy(yPos, 0, outBytes, 5, 4);
+		SendMessage(outBytes);
+	}
+	public void CreateTorp(byte num, float x, float y, float rotA)
+	{
+		//Debug.Log("Created: " + num);
+		byte[] xPos = BitConverter.GetBytes(x);
+		byte[] yPos = BitConverter.GetBytes(y);
+		byte[] rot = BitConverter.GetBytes(rotA);
+		byte[] outBytes = new byte[14];
+		outBytes[0] = 10;
+		outBytes[1] = num;
+		Buffer.BlockCopy(xPos, 0, outBytes, 2, 4);
+		Buffer.BlockCopy(yPos, 0, outBytes, 6, 4);
+		Buffer.BlockCopy(rot, 0, outBytes, 10, 4);
+		SendMessage(outBytes);
+	}
+	public void DestroyTorp(byte num)
+	{
+		//Debug.Log("Deleted: " + num);
+		byte[] outBytes = new byte[2];
+		outBytes[0] = 11;
+		outBytes[1] = num;
 		SendMessage(outBytes);
 	}
 }

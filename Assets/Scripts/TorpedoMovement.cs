@@ -7,16 +7,21 @@ public class TorpedoMovement : MonoBehaviour
     public float speed;
     public GameObject explosion;
     public GameObject exampleSonar;
-
+    public static byte torpNum = 0;
     private bool isInitialized = false;
     private GameObject torpedoDestination;
     private GameObject parent;
+    private byte myTorpNum;
 
     public void Initialize(GameObject destination, GameObject parentObject)
     {
         isInitialized = true;
         torpedoDestination = destination;
         parent = parentObject;
+        transform.position = Vector3.MoveTowards(transform.position, torpedoDestination.transform.position, speed * Time.fixedDeltaTime);
+        transform.up = torpedoDestination.transform.position - transform.position;
+        myTorpNum = torpNum++;
+        Networking.Instance.CreateTorp(myTorpNum, transform.position.x, transform.position.y, transform.eulerAngles.z);
     }
 
     // Update is called once per frame
@@ -36,6 +41,7 @@ public class TorpedoMovement : MonoBehaviour
         if (other.gameObject != parent)
         {
             Networking.Instance.SendExplosion(transform.position);
+            Networking.Instance.DestroyTorp(myTorpNum);
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
             Destroy(torpedoDestination);

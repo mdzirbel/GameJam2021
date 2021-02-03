@@ -3298,6 +3298,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OurShip
       objectReference: {fileID: 0}
+    - target: {fileID: 8169719355107899658, guid: b7b537f3ef52295438848b7dbff06e96,
+        type: 3}
+      propertyPath: m_TagString
+      value: PlayerShip
+      objectReference: {fileID: 0}
     - target: {fileID: 8169719355107899659, guid: b7b537f3ef52295438848b7dbff06e96,
         type: 3}
       propertyPath: m_RootOrder
