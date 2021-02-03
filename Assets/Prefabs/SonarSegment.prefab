@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d948e216204e9947bb789a61fde2cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 16
   timeoutTime: 5
   ping: {fileID: 5402727336076415688, guid: ff9a01de99d7b084eb350c3c34011a7f, type: 3}
 --- !u!70 &3655447613440295968
