@@ -99,6 +99,8 @@ MonoBehaviour:
   speed: 10
   explosion: {fileID: 8149016248802764018, guid: 167ede1e53928d4409e76a16dbad209d,
     type: 3}
+  exampleSonar: {fileID: 4210157204381087221, guid: d46938597d1fd7a4db9e1a7ad05c5971,
+    type: 3}
 --- !u!70 &515983272603175390
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

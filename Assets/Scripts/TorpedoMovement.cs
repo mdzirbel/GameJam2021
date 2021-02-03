@@ -6,6 +6,7 @@ public class TorpedoMovement : MonoBehaviour
 {
     public float speed;
     public GameObject explosion;
+    public GameObject exampleSonar;
 
     private bool isInitialized = false;
     private GameObject torpedoDestination;
@@ -27,6 +28,11 @@ public class TorpedoMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        bool isSonar = other.gameObject.name.Contains("Sonar");
+        if (isSonar)
+        {
+            return;
+        }
         if (other.gameObject != parent)
         {
             Networking.Instance.SendExplosion(transform.position);

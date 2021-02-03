@@ -110,13 +110,13 @@ public class Networking : MonoBehaviour
 				}
 			}
 		}
-		if(DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastPingTime>1000)
+		if(DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastPingTime>2000)
         {
 			GameObject textBefore = GameObject.FindWithTag("DisconnectedLabel");
 			if (textBefore != null)
 			{
 				Text DisconnectedLabel = textBefore.GetComponent<Text>();
-				DisconnectedLabel.text = "Disconnected!";
+				DisconnectedLabel.text = "High ping!";
 			}
 		}
 	}
