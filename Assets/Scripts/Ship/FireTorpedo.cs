@@ -19,11 +19,11 @@ public class FireTorpedo : MonoBehaviour
         timeSinceMissile = 3f;
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        timeSinceMissile += Time.fixedDeltaTime;
+        timeSinceMissile += Time.DeltaTime;
 
-        if (Input.GetMouseButtonDown(0) && timeSinceMissile > timeBetweenMissles)
+        if (Input.GetMouseButton(0) && timeSinceMissile > timeBetweenMissles)
         {
             timeSinceMissile = 0f;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
