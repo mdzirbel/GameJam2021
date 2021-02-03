@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class Networking : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class Networking : MonoBehaviour
 	public GameObject exampleExplosion;
 	public GameObject exampleShipExplosion;
 	public GameObject examplePing;
+	public GameObject exampleMissle;
 	#region private members 	
 	private TcpClient socketConnection;
 	private Thread clientReceiveThread;
@@ -35,6 +36,7 @@ public class Networking : MonoBehaviour
 		ConnectToTcpServer();
 	}
 	long lastSend = 0;
+	long lastPingTime = 0;
 	void Update()
 	{
 		lock (threadLocker)
@@ -97,8 +99,24 @@ public class Networking : MonoBehaviour
 				}
 				else if (incomingData[0] == 9)
 				{
+					lastPingTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+					GameObject textBefore = GameObject.FindWithTag("DisconnectedLabel");
+					if (textBefore != null)
+					{
+						Text DisconnectedLabel = textBefore.GetComponent<Text>();
+						DisconnectedLabel.text = "";
+					}
 					SendMessage(new byte[] { 4 });
 				}
+			}
+		}
+		if(DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastPingTime>1000)
+        {
+			GameObject textBefore = GameObject.FindWithTag("DisconnectedLabel");
+			if (textBefore != null)
+			{
+				Text DisconnectedLabel = textBefore.GetComponent<Text>();
+				DisconnectedLabel.text = "Disconnected!";
 			}
 		}
 	}

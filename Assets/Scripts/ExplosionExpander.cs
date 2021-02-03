@@ -13,7 +13,7 @@ public class ExplosionExpander : MonoBehaviour
     public bool doesDamage = true;
     private GameObject OurShip;
     private Health shipHealth;
-    private bool enabled = false;
+    private bool damageEnabled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class ExplosionExpander : MonoBehaviour
         currentDamage = damageAtCenter;
         if (OurShip!=null)
         {
-            enabled = true;
+            damageEnabled = true;
             shipHealth = OurShip.GetComponent<Health>();
         }
         else
@@ -33,7 +33,7 @@ public class ExplosionExpander : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enabled)
+        if (damageEnabled)
         {
             CircleCollider2D myCollider = transform.GetComponent<CircleCollider2D>();
             float maybeSize = expansionRadius + (expansionSpeed) * Time.fixedDeltaTime;

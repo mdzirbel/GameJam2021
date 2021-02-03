@@ -1213,6 +1213,8 @@ MonoBehaviour:
     type: 3}
   examplePing: {fileID: 4740469861499080091, guid: e11ba03742d2c4742a35a656d46b244a,
     type: 3}
+  exampleMissle: {fileID: 2874019125479290445, guid: 3041e9df695540e4a8a00dbf303f21dc,
+    type: 3}
 --- !u!4 &794915261
 Transform:
   m_ObjectHideFlags: 0
@@ -2378,7 +2380,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1959909938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9586eb7831a92343ae2a554cf08fd7a, type: 3}
+  m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1961748848
