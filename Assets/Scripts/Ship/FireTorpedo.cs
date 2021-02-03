@@ -21,7 +21,7 @@ public class FireTorpedo : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        timeSinceMissile += Time.DeltaTime;
+        timeSinceMissile += Time.deltaTime;
 
         if (Input.GetMouseButton(0) && timeSinceMissile > timeBetweenMissles)
         {
