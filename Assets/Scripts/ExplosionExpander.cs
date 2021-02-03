@@ -56,13 +56,18 @@ public class ExplosionExpander : MonoBehaviour
             }
         }
     }
-
+    private List<GameObject> hitObjects = new List<GameObject>();
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(hitObjects.Contains(other.gameObject))
+        {
+            Debug.Log("Ignoring multihit");
+        }
         if (other.gameObject.name == OurShip.name)
         {
             shipHealth.DecrementHealth(currentDamage, OurShip);
             Debug.Log(currentDamage + " damage to us!");
         }
+        hitObjects.Add(other.gameObject);
     }
 }

@@ -21,7 +21,7 @@ public class Networking : MonoBehaviour
 	#endregion
 	private Dictionary<int, GameObject> ships = new Dictionary<int, GameObject>();
 	private System.Object threadLocker = new System.Object();
-	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9, 9};
+	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9, 9, 1};
 	// Use this for initialization 	
 	void Awake()
 	{
@@ -95,11 +95,10 @@ public class Networking : MonoBehaviour
 					Quaternion rotation = Quaternion.Euler(0, 0, rnd.Next(360));
 					GameObject explosion = Instantiate(examplePing, pingPosition, rotation);
 				}
-			}
-			if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastSend > 500)
-			{
-				lastSend = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-				SendMessage(new byte[] { 4 });
+				else if (incomingData[0] == 9)
+				{
+					SendMessage(new byte[] { 4 });
+				}
 			}
 		}
 	}
