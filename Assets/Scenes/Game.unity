@@ -201,6 +201,60 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 30315579}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &47771147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 47771149}
+  - component: {fileID: 47771148}
+  m_Layer: 0
+  m_Name: Networking Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &47771148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47771147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74cdcf7743a17e4598a786b515d546d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exampleShip: {fileID: 246169920457405975, guid: 790b0e58db75cc847b5bca6d7bd1704b,
+    type: 3}
+  exampleExplosion: {fileID: 8149016248802764018, guid: 167ede1e53928d4409e76a16dbad209d,
+    type: 3}
+  exampleShipExplosion: {fileID: 2672203238691168869, guid: 0dbd871fdd3e4624d8a02afd9c5c8f2c,
+    type: 3}
+  examplePing: {fileID: 4740469861499080091, guid: e11ba03742d2c4742a35a656d46b244a,
+    type: 3}
+  exampleMissle: {fileID: 2874019125479290445, guid: 94ea093daf9d52544a43a538a4dfe51e,
+    type: 3}
+  defaultGame: AAAA
+--- !u!4 &47771149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47771147}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 466.64536, y: 260.48032, z: -74.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &83560754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3297,6 +3351,11 @@ PrefabInstance:
         type: 3}
       propertyPath: turningStrength
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551983513701531067, guid: b7b537f3ef52295438848b7dbff06e96,
+        type: 3}
+      propertyPath: timeBetweenMissles
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8169719355107899658, guid: b7b537f3ef52295438848b7dbff06e96,
         type: 3}

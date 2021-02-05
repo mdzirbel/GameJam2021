@@ -16,6 +16,7 @@ public class Networking : MonoBehaviour
 	public GameObject exampleShipExplosion;
 	public GameObject examplePing;
 	public GameObject exampleMissle;
+	public string defaultGame;
 	#region private members 	
 	private TcpClient socketConnection;
 	private Thread clientReceiveThread;
@@ -30,6 +31,7 @@ public class Networking : MonoBehaviour
 		if (Instance != null)
 		{
 			Debug.LogError("There is more than one instance!");
+			Destroy(gameObject);
 			return;
 		}
 		DontDestroyOnLoad(this.gameObject);
@@ -200,6 +202,10 @@ public class Networking : MonoBehaviour
 		try
 		{
 			socketConnection = new TcpClient("74.140.3.27", 4162);
+			if (defaultGame.Equals("AAAA"))
+            {
+				ConnectToGameAL();
+			}
 			Debug.Log("Connected:" + socketConnection.Connected);
 			NetworkStream stream = socketConnection.GetStream();
 			while (!stopThread && stream.CanRead)
