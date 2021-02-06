@@ -5,7 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     private float health = 100;
-    public ProgressBar Pb;
+    private ProgressBar Pb;
     public GameObject shipExplosionExample;
     private AudioSource hitSound;
     // Start is called before the first frame update

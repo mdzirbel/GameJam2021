@@ -24,7 +24,7 @@ public class Networking : MonoBehaviour
 	private Dictionary<byte, GameObject> ships = new Dictionary<byte, GameObject>();
 	private Dictionary<byte, GameObject> dumbMissles = new Dictionary<byte, GameObject>();
 	private System.Object threadLocker = new System.Object();
-	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9, 9, 1, 14, 2};
+	byte[] TYPE_TO_LENGTH = new byte[] { 5, 2, 14, 2, 2, 9, 2, 9, 9, 5, 14, 2};
 	// Use this for initialization 	
 	void Awake()
 	{
@@ -107,7 +107,7 @@ public class Networking : MonoBehaviour
 					if (textBefore != null)
 					{
 						Text DisconnectedLabel = textBefore.GetComponent<Text>();
-						DisconnectedLabel.text = "";
+						DisconnectedLabel.text = "Ping: "+ getInt(incomingData,1);
 					}
 					SendMessage(new byte[] { 4 });
 				}
@@ -186,6 +186,11 @@ public class Networking : MonoBehaviour
 		{
 			Debug.Log("On client connect exception " + e);
 		}
+	}
+	int getInt(byte[] theArray, int start)
+	{
+		int f = System.BitConverter.ToInt32(theArray, start);
+		return f;
 	}
 	float getFloat(byte[] theArray, int start)
 	{
