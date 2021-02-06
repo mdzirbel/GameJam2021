@@ -24,11 +24,11 @@ public class TorpedoMovement : MonoBehaviour
         Networking.Instance.CreateTorp(myTorpNum, transform.position.x, transform.position.y, transform.eulerAngles.z);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, torpedoDestination.transform.position, speed * Time.fixedDeltaTime);
-        transform.up = torpedoDestination.transform.position - transform.position;
+        transform.position += transform.up * Time.fixedDeltaTime * speed;
+        //transform.position = Vector3.MoveTowards(transform.position, torpedoDestination.transform.position, speed * Time.fixedDeltaTime);
+        //transform.up = torpedoDestination.transform.position - transform.position;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
