@@ -3538,6 +3538,11 @@ PrefabInstance:
       propertyPath: ship
       value: 
       objectReference: {fileID: 6933505157086570607}
+    - target: {fileID: 8353965158196724726, guid: d107ed4cb31e966409714fc7999c32b1,
+        type: 3}
+      propertyPath: unlockedSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8353965158196724728, guid: d107ed4cb31e966409714fc7999c32b1,
         type: 3}
       propertyPath: m_CullingMask.m_Bits
