@@ -41,6 +41,10 @@ public class SonarSegment : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.gameObject.name.Contains("Torp"))
+        {
+            return;
+        }
         if (other.gameObject != parent)
         {
             if (pingsOnHit && !other.gameObject.name.Contains("Wall"))
