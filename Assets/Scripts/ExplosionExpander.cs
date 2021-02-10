@@ -73,7 +73,7 @@ public class ExplosionExpander : MonoBehaviour
         {
             Debug.Log("Ignoring multihit");
         }
-        if (other.gameObject.name == OurShip.name)
+        else if (other.gameObject.name == OurShip.name)
         {
             shipHealth.DecrementHealth(currentDamage, OurShip);
             Debug.Log(currentDamage + " damage to us!");
