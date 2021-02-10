@@ -14,12 +14,13 @@ public class ExplosionExpander : MonoBehaviour
     private GameObject OurShip;
     private Health shipHealth;
     private bool damageEnabled = false;
-    // Start is called before the first frame update
-    void Start()
+    private bool initialized = false;
+    void init()
     {
+        initialized = true;
         OurShip = GameObject.Find("OurShip");
         currentDamage = damageAtCenter;
-        if (OurShip!=null)
+        if (OurShip != null)
         {
             damageEnabled = true;
             shipHealth = OurShip.GetComponent<Health>();
@@ -28,6 +29,11 @@ public class ExplosionExpander : MonoBehaviour
         {
             Debug.Log("Tried to do explosion damage but we are not alive so no point");
         }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        init();
     }
 
     // Update is called once per frame
@@ -59,6 +65,10 @@ public class ExplosionExpander : MonoBehaviour
     private List<GameObject> hitObjects = new List<GameObject>();
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(!initialized)
+        {
+            init();
+        }
         if(hitObjects.Contains(other.gameObject))
         {
             Debug.Log("Ignoring multihit");
