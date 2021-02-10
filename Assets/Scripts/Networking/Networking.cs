@@ -107,7 +107,7 @@ public class Networking : MonoBehaviour
 					if (textBefore != null)
 					{
 						Text DisconnectedLabel = textBefore.GetComponent<Text>();
-						DisconnectedLabel.text = "Ping: "+ getInt(incomingData,1);
+						DisconnectedLabel.text = "Ping: "+ getInt(incomingData,1)+" ms";
 					}
 					SendMessage(new byte[] { 4 });
 				}
